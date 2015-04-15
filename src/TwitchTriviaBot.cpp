@@ -4,7 +4,15 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	TwitchIRC irc("GummyTriviaBot", "GummyTriviaBot", "irc.twitch.tv", 6667, "#gummy52", "oauth:2llmkfs9v6ly2lxhu7arbl98ybt0j4d");
+	TwitchIRC irc("gummy52", "gummy52", "irc.twitch.tv", 6667, "#gummy52", "oauth:k5lda5anbr86bpfxhzofw3sjxlomxy");
+
+	while (irc.activeSocket())
+	{
+		irc.Update();
+	}
+
+	printf("The program has ended.\n");
+	system("pause");
 	return 0;
 }
 
