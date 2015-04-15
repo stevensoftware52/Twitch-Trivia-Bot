@@ -12,4 +12,5 @@
 
 using namespace Util;
 
+#include "Trivia.h"
 #include "TwitchIRC.h"

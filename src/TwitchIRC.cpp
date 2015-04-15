@@ -4,7 +4,8 @@
 
 TwitchIRC::TwitchIRC(const std::string nick, const std::string usr, const std::string addr, const uint32 port, const std::string channel, const std::string password) :
 	m_channelName(channel),
-	m_sSocket(NULL)
+	m_sSocket(NULL),
+	m_trivia(this)
 {
 	if (int32 err = WSAStartup(MAKEWORD(2, 0), &m_wsa))
 	{
@@ -69,6 +70,7 @@ void TwitchIRC::Update()
 			std::string username;
 			std::string message;
 			StripPRIVMSG(response, username, message);
+			printf("PRIVMSG %s: %s\n", username.c_str(), message.c_str());
 		}
 
 		// If server wants a pong
@@ -78,7 +80,7 @@ void TwitchIRC::Update()
 		}
 	}
 
-	SendChatMsg("Hello");
+	//SendChatMsg("Hello");
 }
 
 void TwitchIRC::StripPRIVMSG(const std::string ircMsg, std::string& username, std::string& msg)

@@ -32,11 +32,13 @@ class TwitchIRC
 		
 		// Returns false if failed.
 		bool ReceiveIRCMessage(std::string& message);
+		
+		std::string m_channelName;
 
 	    SOCKET m_sSocket;
 		WSADATA m_wsa;
-		
-		std::string m_channelName;
+
+		Trivia m_trivia;
 };
 
 #endif
