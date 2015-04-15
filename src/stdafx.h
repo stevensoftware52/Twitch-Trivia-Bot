@@ -1,3 +1,5 @@
+// Steven Rogers
+
 #pragma once
 
 #include "targetver.h"
@@ -9,3 +11,5 @@
 #include "..\\..\\..\\Util\\Util.h"
 
 using namespace Util;
+
+#include "TwitchIRC.h"
