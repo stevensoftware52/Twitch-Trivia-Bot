@@ -1,1 +1,1 @@
-# Twitch-Trivia-Bot
+This is a framework for a program to communicate with an IRC channel at http://www.twitch.tv/
