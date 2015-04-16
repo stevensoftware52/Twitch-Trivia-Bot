@@ -4,6 +4,8 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	srand((uint32)time(NULL));
+
 	std::vector<std::string> config = Util::readLinesFromFile("login.txt");
 
 	if (config.size() >= 5)

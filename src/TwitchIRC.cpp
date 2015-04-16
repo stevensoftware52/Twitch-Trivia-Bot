@@ -15,7 +15,7 @@ TwitchIRC::TwitchIRC(const std::string nick, const std::string usr, const std::s
 	{
 		printf("TwitchIRC: Constructed.\n");
 
-		m_sSocket = Util::createSocketAndConnect(addr.c_str(), port, false, 10000);
+		m_sSocket = Util::createSocketAndConnect(addr.c_str(), port, false, 1);
 
 		if (m_sSocket == INVALID_SOCKET)
 		{
@@ -44,7 +44,12 @@ TwitchIRC::TwitchIRC(const std::string nick, const std::string usr, const std::s
 		else
 		{
 			const std::string joinMsg = "JOIN " + m_channelName + "\r\n";
-			Util::sendBytes(m_sSocket, (char*)joinMsg.c_str(), joinMsg.size());
+			
+			if (Util::sendBytes(m_sSocket, (char*)joinMsg.c_str(), joinMsg.size()) != SOCKET_ERROR)
+			{
+				SendChatMsg("It's " + Util::timeStampToHReadble() + " and it's timeeeeee for some time trivvaaaa!!!");
+				m_trivia.queueNextQuestion();
+			}
 		}
 	}
 } 
@@ -58,7 +63,7 @@ TwitchIRC::~TwitchIRC()
 }
 
 void TwitchIRC::Update()
-{	
+{		
 	std::string response;
 	ReceiveIRCMessage(response);
 
@@ -71,6 +76,7 @@ void TwitchIRC::Update()
 			std::string message;
 			StripPRIVMSG(response, username, message);
 			printf("PRIVMSG %s: %s\n", username.c_str(), message.c_str());
+			m_trivia.ProcessAnswer(username, message);
 		}
 
 		// If server wants a pong
@@ -78,9 +84,9 @@ void TwitchIRC::Update()
 		{
 			SendPong(response);
 		}
-	}
+	};
 
-	//SendChatMsg("Hello");
+	m_trivia.Update();
 }
 
 void TwitchIRC::StripPRIVMSG(const std::string ircMsg, std::string& username, std::string& msg)
@@ -151,6 +157,9 @@ bool TwitchIRC::ReceiveIRCMessage(std::string& message)
 
 bool TwitchIRC::SendChatMsg(std::string chatMsg)
 {	
+	if (!activeSocket())
+		return false;
+
 	printf("Sending: '%s'\n", chatMsg.c_str());
 
 	const std::string formattedMsg = "PRIVMSG " + m_channelName + " :" + chatMsg + "\r\n";
