@@ -1,5 +1,0 @@
-testaccount52524
-irc.twitch.tv
-6667
-#gummy52
-oauth:inb6mn8jwjdbfhh3eazwcdkd6khsr8
